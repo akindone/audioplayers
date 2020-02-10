@@ -1,6 +1,5 @@
 package xyz.luan.audioplayers;
 
-import android.os.Build;
 import android.content.Context;
 import android.os.Handler;
 
@@ -10,12 +9,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-public class AudioplayersPlugin implements MethodCallHandler {
+public class AudioplayersPlugin implements MethodCallHandler, FlutterPlugin {
 
     private static final Logger LOGGER = Logger.getLogger(AudioplayersPlugin.class.getCanonicalName());
 
@@ -26,8 +26,10 @@ public class AudioplayersPlugin implements MethodCallHandler {
     private final Context context;
     private boolean seekFinish;
 
+    private static final String CHANNEL_NAME = "xyz.luan/audioplayers";
+
     public static void registerWith(final Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "xyz.luan/audioplayers");
+        final MethodChannel channel = new MethodChannel(registrar.messenger(), CHANNEL_NAME);
         channel.setMethodCallHandler(new AudioplayersPlugin(channel, registrar.activeContext()));
     }
 
@@ -45,6 +47,19 @@ public class AudioplayersPlugin implements MethodCallHandler {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Unexpected error!", e);
             response.error("Unexpected error!", e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void onAttachedToEngine(FlutterPluginBinding binding) {
+        MethodChannel channel = new MethodChannel(binding.getBinaryMessenger(), CHANNEL_NAME);
+        channel.setMethodCallHandler(new AudioplayersPlugin(channel, binding.getApplicationContext()));
+    }
+
+    @Override
+    public void onDetachedFromEngine(FlutterPluginBinding binding) {
+        if (channel != null) {
+            channel.setMethodCallHandler(null);
         }
     }
 
