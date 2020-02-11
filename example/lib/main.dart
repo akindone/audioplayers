@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/constants.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/src/foundation/constants.dart';
 
 import 'player_widget.dart';
 
@@ -16,6 +16,8 @@ typedef void OnError(Exception exception);
 const kUrl1 = 'https://luan.xyz/files/audio/ambient_c_motion.mp3';
 const kUrl2 = 'https://luan.xyz/files/audio/nasa_on_a_mission.mp3';
 const kUrl3 = 'http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1xtra_mf_p';
+const kUrl4 =
+    'https://focus-resource.oss-cn-beijing.aliyuncs.com/ToB/audio/training_rocket_bg_music.mp3';
 
 void main() {
   runApp(MaterialApp(home: ExampleApp()));
@@ -64,10 +66,13 @@ class _ExampleAppState extends State<ExampleApp> {
     return SingleChildScrollView(
       child: _Tab(children: [
         Text(
-          'Sample 1 ($kUrl1)',
+          'Sample 1 ($kUrl4)',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        PlayerWidget(url: kUrl1),
+        PlayerWidget(
+          url: kUrl4,
+          mode: PlayerMode.MEDIA_PLAYER,
+        ),
         Text(
           'Sample 2 ($kUrl2)',
           style: TextStyle(fontWeight: FontWeight.bold),

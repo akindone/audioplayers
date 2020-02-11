@@ -27,9 +27,9 @@ public class WrappedMediaPlayer extends Player implements MediaPlayer.OnPrepared
     private int shouldSeekTo = -1;
 
     private MediaPlayer player;
-    private AudioplayersPlugin ref;
+    private AudioplayersHandler ref;
 
-    WrappedMediaPlayer(AudioplayersPlugin ref, String playerId) {
+    WrappedMediaPlayer(AudioplayersHandler ref, String playerId) {
         this.ref = ref;
         this.playerId = playerId;
     }
