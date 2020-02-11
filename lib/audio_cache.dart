@@ -34,7 +34,7 @@ class AudioCache {
   /// Not implemented on macOS.
   bool respectSilence;
 
-  AudioCache({this.prefix = "", this.fixedPlayer, this.respectSilence = false});
+  AudioCache({this.prefix = "assets/", this.fixedPlayer, this.respectSilence = false});
 
   /// Clears the cache of the file [fileName].
   ///
@@ -56,7 +56,7 @@ class AudioCache {
   }
 
   Future<ByteData> _fetchAsset(String fileName) async {
-    return await rootBundle.load('assets/$prefix$fileName');
+    return await rootBundle.load('$prefix$fileName');
   }
 
   Future<File> fetchToMemory(String fileName) async {
